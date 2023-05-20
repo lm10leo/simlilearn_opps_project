@@ -1,0 +1,118 @@
+package simplilearn_oops;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class project_file {
+
+    private static final String DIRECTORY_PATH = "C:\\oops project";
+
+    public static void main(String[] args) {
+        System.out.println("opps project");
+
+        Scanner scanner = new Scanner(System.in);
+        boolean exit = false;
+        while (!exit) {
+            displayMenu();
+            int option = scanner.nextInt();
+            switch (option) {
+                case 1:
+                    displayFileNames();
+                    break;
+                case 2:
+                    addFile();
+                    break;
+                case 3:
+                    deleteFile();
+                    break;
+                case 4:
+                    searchFile();
+                    break;
+                case 5:
+                    exit = true;
+                    System.out.println("Exiting Application...");
+                    break;
+                default:
+                    System.out.println("Invalid option selected. Please try again.");
+                    break;
+            }
+        }
+        scanner.close();
+    }
+
+    private static void displayMenu() {
+    	System.out.println("");
+        System.out.println("1. Retrieve the file names in ascending order");
+        System.out.println("2. Add a file to the existing directory list");
+        System.out.println("3. Delete a user specified file from the existing directory list");
+        System.out.println("4. Search a user specified file from the main directory");
+        System.out.println("5. Exit the application");
+        System.out.println("**************************************************");
+        System.out.println("Enter your choice:");
+    }
+
+    private static void displayFileNames() {
+        File directory = new File(DIRECTORY_PATH);
+        if (!directory.exists()) {
+            System.out.println("Directory does not exist!");
+            return;
+        }
+        File[] files = directory.listFiles();
+        if (files.length == 0) {
+            System.out.println("Directory is empty!");
+            return;
+        }
+        Arrays.sort(files);
+        System.out.println("**************************************************");
+        System.out.println("Files in the directory:");
+        for (File file : files) {
+            System.out.println(file.getName());
+        }
+        System.out.println("**************************************************");
+    }
+
+    private static void addFile() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter file name to be added:");
+        String fileName = scanner.nextLine();
+        File file = new File(DIRECTORY_PATH + "\\" + fileName);
+        try {
+            if (file.createNewFile()) {
+                System.out.println("File created successfully!");
+            } else {
+                System.out.println("File already exists!");
+            }
+        } catch (IOException e) {
+            System.out.println("Error occurred while creating the file: " + e.getMessage());
+        }
+    }
+
+    private static void deleteFile() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter file name to be deleted:");
+        String fileName = scanner.nextLine();
+        File file = new File(DIRECTORY_PATH + "\\" + fileName);
+        if (file.delete()) {
+            System.out.println("File deleted successfully!");
+        } else {
+            System.out.println("Failed to delete the file or file not found!");
+        }
+    }
+
+        
+
+    private static void searchFile() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter file name to be searched:");
+        String fileName = scanner.nextLine();
+        File file = new File(DIRECTORY_PATH + "\\" + fileName);
+        if (file.exists()) {
+            System.out.println("File found!");
+
+        } else {
+            System.out.println("File not found!");
+        }
+    }
+}
